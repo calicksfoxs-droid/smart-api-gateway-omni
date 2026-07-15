@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 
 import { useState, useEffect } from "react";
 import { Button, Input } from "@/shared/components";
+import OmniRouteLogo from "@/shared/components/OmniRouteLogo";
 import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
@@ -225,7 +226,7 @@ export default function LoginPage() {
             <div className="mb-10">
               <div className="flex items-center gap-3 mb-8">
                 <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary to-primary-hover flex items-center justify-center">
-                  <span className="material-symbols-outlined text-white text-[20px]">hub</span>
+                  <OmniRouteLogo size={22} className="text-white" />
                 </div>
                 <span className="text-xl font-semibold text-text-main tracking-tight">
                   Smart API Gateway Next

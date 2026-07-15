@@ -9,7 +9,8 @@ test("config constants public surface excludes removed app endpoint placeholders
   assert.equal(Object.hasOwn(config, "SUBSCRIPTION_CONFIG"), false);
   assert.equal(Object.hasOwn(config, "API_ENDPOINTS"), false);
   assert.ok(config.PROVIDER_ENDPOINTS.openai);
-  assert.ok(config.APP_CONFIG.name);
+  assert.equal(config.APP_CONFIG.name, "Smart API Gateway Next");
+  assert.equal(config.THEME_CONFIG.storageKey, "smart-api-gateway-theme");
 });
 
 test("colors public surface excludes removed provider-color wrapper", () => {

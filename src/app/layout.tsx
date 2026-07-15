@@ -6,7 +6,7 @@ import { getMessages, getLocale } from "next-intl/server";
 import { RTL_LOCALES } from "@/i18n/config";
 import { normalizeComplianceEventTypes } from "@/i18n/request";
 import { getSettings } from "@/lib/db/settings";
-import { APP_CONFIG } from "@/shared/constants/appConfig";
+import { APP_CONFIG, THEME_CONFIG } from "@/shared/constants/appConfig";
 import type { Viewport } from "next";
 import { PwaRegister } from "@/shared/components/PwaRegister";
 
@@ -54,6 +54,9 @@ export async function generateMetadata() {
 export default async function RootLayout({ children }) {
   const locale = await getLocale();
   const messages = normalizeComplianceEventTypes((await getMessages()) as Record<string, unknown>);
+  const skipToContent =
+    (messages.common as { skipToContent?: string } | undefined)?.skipToContent ||
+    "انتقل إلى المحتوى";
   const isRtl = RTL_LOCALES.includes(locale as (typeof RTL_LOCALES)[number]);
 
   return (
@@ -87,7 +90,7 @@ export default async function RootLayout({ children }) {
                 }
               }
               try {
-                const stored = localStorage.getItem('theme');
+                const stored = localStorage.getItem('${THEME_CONFIG.storageKey}');
                 const parsed = stored ? JSON.parse(stored) : null;
                 const theme = parsed?.state?.theme || 'system';
                 if (theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -105,7 +108,7 @@ export default async function RootLayout({ children }) {
           href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:px-4 focus:py-2 focus:bg-[#6366f1] focus:text-white focus:rounded-lg focus:text-sm focus:font-semibold focus:shadow-lg"
         >
-          Skip to content
+          {skipToContent}
         </a>
         <NextIntlClientProvider locale={locale} messages={messages}>
           <PwaRegister />

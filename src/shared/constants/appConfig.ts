@@ -8,6 +8,6 @@ export const APP_CONFIG = {
 };
 
 export const THEME_CONFIG = {
-  storageKey: "theme",
+  storageKey: "smart-api-gateway-theme",
   defaultTheme: "system",
 };

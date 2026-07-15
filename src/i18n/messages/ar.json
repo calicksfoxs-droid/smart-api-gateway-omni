@@ -6319,7 +6319,7 @@
     "restartServerWithNewPassword": "أعد تشغيل الخادم وسيتم استخدام كلمة المرور الجديدة",
     "backToLogin": "العودة إلى تسجيل الدخول",
     "forgotPassword": "هل نسيت كلمة المرور؟",
-    "defaultPasswordHint": "Default password: CHANGEME (unless INITIAL_PASSWORD was set)",
+    "defaultPasswordHint": "كلمة المرور الافتراضية: CHANGEME (ما لم تُحدَّد INITIAL_PASSWORD)",
     "Authorization": "إذن",
     "Content-Disposition": "التصرف في المحتوى",
     "waitingForAuthorization": "في انتظار الترخيص...",
