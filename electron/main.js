@@ -1,5 +1,5 @@
 /**
- * OmniRoute Electron Desktop App - Main Process
+ * Smart API Gateway Next Electron Desktop App - Main Process
  *
  * This is the entry point for the Electron desktop application.
  * It manages the main window, system tray, server lifecycle, and IPC communication.
@@ -166,6 +166,7 @@ function getPreferredEnvFilePath(env = process.env) {
 autoUpdater.autoDownload = false;
 autoUpdater.autoInstallOnAppQuit = true;
 autoUpdater.logger = console;
+const BRANDED_AUTO_UPDATES_ENABLED = false;
 
 // ── Helper: Send IPC event to renderer (#5) ────────────────
 function sendToRenderer(channel, data) {
@@ -216,6 +217,8 @@ async function waitForServerExit(proc, timeoutMs = 5000) {
 
 // ── Auto-Updater Event Handlers ─────────────────────────────
 function setupAutoUpdater() {
+  if (!BRANDED_AUTO_UPDATES_ENABLED) return;
+
   autoUpdater.on("checking-for-update", () => {
     sendToRenderer("update-status", { status: "checking" });
     console.log("[Electron] Checking for updates...");
@@ -246,7 +249,7 @@ function setupAutoUpdater() {
 
     if (Notification.isSupported()) {
       const notification = new Notification({
-        title: "OmniRoute Update Ready",
+        title: "Smart API Gateway Next Update Ready",
         body: `Version ${info.version} is ready to install. Click to restart.`,
       });
       notification.on("click", () => {
@@ -263,6 +266,17 @@ function setupAutoUpdater() {
 }
 
 async function checkForUpdates(silent = false) {
+  if (!BRANDED_AUTO_UPDATES_ENABLED) {
+    console.log("[Electron] Branded auto-update channel is not configured");
+    if (!silent) {
+      sendToRenderer("update-status", {
+        status: "error",
+        message: "Updates are managed by the Smart API Gateway Next repository",
+      });
+    }
+    return;
+  }
+
   if (isDev) {
     console.log("[Electron] Dev mode — skipping auto-update");
     if (!silent) {
@@ -353,7 +367,7 @@ function createWindow() {
     height: 900,
     minWidth: 1024,
     minHeight: 700,
-    title: "OmniRoute",
+    title: "Smart API Gateway Next",
     icon: path.join(RESOURCES_PATH, "assets", "icon.png"),
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
@@ -440,7 +454,7 @@ function createTray() {
 
   const contextMenu = Menu.buildFromTemplate([
     {
-      label: "Open OmniRoute",
+      label: "فتح بوابة API الذكية",
       click: () => {
         if (mainWindow) {
           mainWindow.show();
@@ -449,12 +463,12 @@ function createTray() {
       },
     },
     {
-      label: "Open Dashboard",
+      label: "فتح لوحة التحكم",
       click: () => shell.openExternal(getServerUrl()),
     },
     { type: "separator" },
     {
-      label: "Server Port",
+      label: "منفذ الخادم",
       submenu: [
         { label: `Port: ${serverPort}`, enabled: false },
         { type: "separator" },
@@ -465,12 +479,7 @@ function createTray() {
     },
     { type: "separator" },
     {
-      label: "Check for Updates",
-      click: () => checkForUpdates(false),
-    },
-    { type: "separator" },
-    {
-      label: "Quit",
+      label: "خروج",
       click: () => {
         app.isQuitting = true;
         app.quit();
@@ -478,7 +487,7 @@ function createTray() {
     },
   ]);
 
-  tray.setToolTip("OmniRoute");
+  tray.setToolTip("Smart API Gateway Next");
   tray.setContextMenu(contextMenu);
 
   tray.on("double-click", () => {
@@ -675,7 +684,9 @@ function startNextServer() {
         process.env.OMNIROUTE_HEADLESS === "true";
       if (isHeadless && !global.loggedHeadlessReady) {
         global.loggedHeadlessReady = true;
-        console.log("\n\x1b[32m✔ OmniRoute Headless CLI Server is ready and listening!\x1b[0m");
+        console.log(
+          "\n\x1b[32m✔ Smart API Gateway Next Headless CLI Server is ready and listening!\x1b[0m"
+        );
         console.log(`  \x1b[1mPort:\x1b[0m       http://localhost:${serverPort}`);
         console.log(`  \x1b[1mAPI Base:\x1b[0m   http://localhost:${serverPort}/v1`);
         console.log("  \x1b[2mPress Ctrl+C to terminate the process.\x1b[0m\n");
@@ -723,8 +734,8 @@ function enableLinuxDesktopAutostart() {
       [
         "[Desktop Entry]",
         "Type=Application",
-        "Name=OmniRoute",
-        "Comment=OmniRoute Desktop Client",
+        "Name=Smart API Gateway Next",
+        "Comment=Smart API Gateway Next Desktop Client",
         `Exec="${execPath}" --hidden`,
         "Terminal=false",
         "Hidden=false",
@@ -972,7 +983,7 @@ app.whenReady().then(async () => {
   }
 
   // Check for updates after a short delay (don't block startup)
-  if (!isDev) {
+  if (!isDev && BRANDED_AUTO_UPDATES_ENABLED) {
     setTimeout(() => {
       checkForUpdates(true);
     }, 3000);

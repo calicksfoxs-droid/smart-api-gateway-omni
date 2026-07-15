@@ -1,8 +1,9 @@
 import pkg from "../../../package.json" with { type: "json" };
 
 export const APP_CONFIG = {
-  name: "OmniRoute",
-  description: "AI Gateway for Multi-Provider LLMs",
+  name: "Smart API Gateway Next",
+  nameAr: "بوابة API الذكية",
+  description: "بوابة عربية موحّدة وآمنة لنماذج الذكاء الاصطناعي المتعددة",
   version: pkg.version,
 };
 

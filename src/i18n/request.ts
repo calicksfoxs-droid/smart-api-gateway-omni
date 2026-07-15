@@ -26,7 +26,10 @@ export function deepMergeFallback(
       typeof targetValue === "object" &&
       !Array.isArray(targetValue)
     ) {
-      deepMergeFallback(targetValue as Record<string, unknown>, sourceValue as Record<string, unknown>);
+      deepMergeFallback(
+        targetValue as Record<string, unknown>,
+        sourceValue as Record<string, unknown>
+      );
     } else if (targetValue === undefined) {
       target[key] = sourceValue;
     }
@@ -40,7 +43,12 @@ function setNestedValue(target: Record<string, unknown>, dottedKey: string, valu
 
   for (let index = 0; index < segments.length; index += 1) {
     const segment = segments[index];
-    if (!segment || segment === "__proto__" || segment === "constructor" || segment === "prototype") {
+    if (
+      !segment ||
+      segment === "__proto__" ||
+      segment === "constructor" ||
+      segment === "prototype"
+    ) {
       return;
     }
 
@@ -65,7 +73,9 @@ export function normalizeComplianceEventTypes(
   messages: Record<string, unknown>
 ): Record<string, unknown> {
   const compliance =
-    messages.compliance && typeof messages.compliance === "object" && !Array.isArray(messages.compliance)
+    messages.compliance &&
+    typeof messages.compliance === "object" &&
+    !Array.isArray(messages.compliance)
       ? (messages.compliance as Record<string, unknown>)
       : null;
   const eventTypes =
@@ -130,9 +140,9 @@ export default getRequestConfig(async () => {
   //    in plan 14 F9) are displayed in English for the 39 non-EN/non-pt-BR locales until
   //    translations are shipped.
   let mergedMessages: Record<string, unknown> = messages as Record<string, unknown>;
-  if (locale !== DEFAULT_LOCALE) {
+  if (locale !== FALLBACK_LOCALE) {
     const enMessages = normalizeComplianceEventTypes(
-      (await import(`./messages/${DEFAULT_LOCALE}.json`)).default as Record<string, unknown>
+      (await import(`./messages/${FALLBACK_LOCALE}.json`)).default as Record<string, unknown>
     );
     mergedMessages = { ...enMessages, ...mergedMessages };
   }

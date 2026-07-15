@@ -20,6 +20,11 @@ test("i18n config adapter reflects the JSON source of truth", () => {
   assert.equal(LOCALE_COOKIE, "NEXT_LOCALE");
 });
 
+test("Smart API Gateway Next defaults to Arabic RTL", () => {
+  assert.equal(DEFAULT_LOCALE, "ar");
+  assert.ok(RTL_LOCALES.includes("ar"));
+});
+
 test("i18n language metadata preserves native and English names", () => {
   assert.equal(LANGUAGES.length, i18nConfig.locales.length);
 

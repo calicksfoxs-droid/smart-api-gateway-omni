@@ -13,6 +13,7 @@ import {
   type ComboConfigMode,
 } from "@/shared/constants/comboConfigMode";
 import { PIN_PROVIDER_QUOTA_TO_HOME_KEY } from "@/shared/constants/homeWidgets";
+import { APP_CONFIG } from "@/shared/constants/appConfig";
 import AccountEmailVisibilitySetting from "./AccountEmailVisibilitySetting";
 
 export default function AppearanceTab() {
@@ -545,7 +546,7 @@ export default function AppearanceTab() {
               </div>
               <input
                 type="text"
-                value={settings.instanceName || "OmniRoute"}
+                value={settings.instanceName || APP_CONFIG.name}
                 onChange={(e) => updateSetting("instanceName", e.target.value)}
                 placeholder="OmniRoute"
                 maxLength={100}

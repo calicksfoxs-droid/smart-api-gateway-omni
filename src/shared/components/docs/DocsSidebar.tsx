@@ -33,7 +33,9 @@ export default function DocsSidebar({ sections, currentPath, className }: DocsSi
       )}
     >
       <div className="p-4 flex items-center justify-between border-b border-border">
-        {!collapsed && <span className="font-bold text-text-primary">OmniRoute Docs</span>}
+        {!collapsed && (
+          <span className="font-bold text-text-primary">توثيق Smart API Gateway Next</span>
+        )}
         <button
           onClick={() => setCollapsed(!collapsed)}
           className="p-1 hover:bg-bg-subtle rounded transition-colors"

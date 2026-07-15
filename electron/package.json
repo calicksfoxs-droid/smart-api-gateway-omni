@@ -1,14 +1,13 @@
 {
   "name": "omniroute-desktop",
   "version": "3.8.48",
-  "description": "OmniRoute Desktop Application",
+  "description": "Smart API Gateway Next Desktop Application",
   "main": "main.js",
   "author": {
-    "name": "OmniRoute Team",
-    "email": "support@omniroute.online"
+    "name": "Smart API Gateway Next Team"
   },
   "license": "MIT",
-  "homepage": "https://omniroute.online",
+  "homepage": "https://github.com/calicksfoxs-droid",
   "engines": {
     "node": ">=22.22.2 <23 || >=24.0.0 <27"
   },
@@ -39,18 +38,13 @@
     "undici": "^7.28.0"
   },
   "build": {
-    "appId": "online.omniroute.desktop",
-    "productName": "OmniRoute",
-    "copyright": "Copyright © 2025 OmniRoute",
+    "appId": "com.smartapigateway.next",
+    "productName": "Smart API Gateway Next",
+    "copyright": "Copyright © 2026 Smart API Gateway Next contributors",
     "buildDependenciesFromSource": true,
     "directories": {
       "output": "dist-electron",
       "buildResources": "assets"
-    },
-    "publish": {
-      "provider": "github",
-      "owner": "diegosouzapw",
-      "repo": "OmniRoute"
     },
     "files": [
       "main.js",
